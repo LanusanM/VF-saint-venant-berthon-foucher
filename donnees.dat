@@ -1,0 +1,9 @@
+200        ! N      : nombre de mailles
+0.0        ! xmin   : début du domaine (m)
+10.0       ! xmax   : fin du domaine (m)
+5.0        ! xb     : position du barrage (m)
+1.0        ! Tfin   : temps final (s)
+0.5        ! CFL
+1          ! cas    : numéro du cas-test (1 = rupture de barrage)
+2.0        ! hL     : hauteur d'eau à gauche (m)
+1.0        ! hR     : hauteur d'eau à droite (m)
