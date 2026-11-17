@@ -6,12 +6,13 @@ program main
     use sortie
     implicit none
 
-    integer :: Nx, Ny, dim
-    real(pr) :: xmin, xmax, ymin, ymax, Tmax, CFL, cas, hL, hR, xb
+    integer :: Nx, Ny, dim, cas
+    real(pr) :: xmin, xmax, ymin, ymax, Tmax, CFL, hL, hR, xb
 
     integer :: i
     real(pr) :: dx, dy
-    real(pr), dimension(:), allocatable :: x, h, hu, z
+    real(pr), dimension(:), allocatable :: x, z
+    real(pr), dimension(:,:), allocatable :: w
 
     open(unit=2,file="donnees.dat")
     read(2,*) dim
@@ -27,42 +28,41 @@ program main
     read(2,*) cas
     read(2,*) hL
     read(2,*) hR
-
-    !print *, dim, Nx, Ny, xmin, xmax, ymin, ymax, xb, Tmax, CFL, cas, hL, hR
+    close(2)
 
     dx = (xmax-xmin)/Nx
 
-
-    allocate(x(0:Nx+1))
-    allocate(h(0:Nx+1))
-    allocate(hu(0:Nx+1))
-    allocate(z(0:Nx+1))
+    allocate(x(0:Nx+1), z(0:Nx+1), w(dim + 1, 0:Nx+1))
 
     do i = 0, Nx+1
         x(i) = xmin + (i-0.5_pr)*dx
     end do
 
-    print *, x
+
+    select case (cas)
+    case (1)
+        call init_rupture_barrage(Nx, x, xb, hL, hR, w, z)
+        print *, w(1, Nx/2), w(1, Nx/2+1)
+
+
+
+    case (2)
+        ! plus tard : lac au repos
+
+
+
+
+    case default
+        print *, "Cas-test inconnu :", cas
+        stop
+    end select
+    
+    
 
 
 
 
 
-
-    close(2)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    deallocate(x, z, w)
 
 end program main
