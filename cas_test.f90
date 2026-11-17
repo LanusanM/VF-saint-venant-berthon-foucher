@@ -3,7 +3,9 @@ module cas_test
     use parametres
     implicit none
 
-    integer, parameter :: pr=8
+    !subroutine init_rupture_barrage(x, xb, hL, hR, h, hu, z)
+
+
 
 
 
