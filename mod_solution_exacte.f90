@@ -67,6 +67,10 @@ contains
         end do
 
     end subroutine solution_exacte_barrage
+
+    
+
+
   
 
 
