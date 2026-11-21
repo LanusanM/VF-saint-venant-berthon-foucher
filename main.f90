@@ -4,6 +4,7 @@ program main
     use cas_test
     use VF
     use sortie
+    use solution_exacte
     implicit none
 
     integer :: Nx, Ny, dim, cas
