@@ -57,6 +57,31 @@ module VF
         end if
     end function flux_HLL
 
+
+
+
+    subroutine conditions_limites(Nx,w)
+        integer, intent(in) :: Nx
+        real(pr), dimension(:,0:), intent(out) :: w
+
+        w(:,0) = w(:,1)
+        w(:,Nx+1) = w(:,Nx)
+
+
+    end subroutine conditions_limites
+
+
+
+    ! function pas_de_temps(Nx, w, dx, CFL) result(dt)
+    !     integer, intent(in) :: Nx
+    !     real(pr), dimension(:,0:), intent(in) :: w
+    !     real(pr), intent(in) :: dx, CFL
+
+
+
+    
+    ! end function pas_de_temps
+
     
 end module VF
 
