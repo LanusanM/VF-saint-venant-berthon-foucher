@@ -18,4 +18,4 @@ sortie.o:   parametres.o
 main.o:     parametres.o cas_test.o VF.o sortie.o
 
 clean:
-	rm -f *.o *.mod run
+	rm -f *.o *.mod run final.dat *.png

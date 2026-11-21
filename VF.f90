@@ -96,6 +96,48 @@ module VF
         dt = CFL * dx/vmax  
     end function pas_de_temps
 
+
+    subroutine mise_a_jour(Nx, w, dt, dx)
+        integer, intent(in) :: Nx
+        real(pr), intent(in) :: dt, dx
+        real(pr), dimension(:,0:), intent(inout) :: w
+        real(pr), dimension(2, 0:Nx) :: F
+        integer :: i
+
+        do i= 0, Nx
+            F(:,i) = flux_HLL(w(:,i),w(:,i+1))
+        end do
+
+        do i = 1, Nx
+            w(:,i) = w(:,i) - dt/dx * (F(:,i) - F(:,i-1))
+        end do
+
+    end subroutine mise_a_jour
+
+
+    subroutine resolution_1D(Nx, w, dx, CFL, Tmax)
+        integer, intent(in) :: Nx
+        real(pr), dimension(:,0:), intent(inout) :: w
+        real(pr), intent(in) :: dx, CFL, Tmax
+        real(pr) :: dt, t
+        integer :: n
+
+
+        t = 0._pr
+        n = 0
+        do while (t < Tmax)
+            call conditions_limites(Nx,w)
+            dt = pas_de_temps(Nx,w,dx, CFL)
+            dt = min(dt, Tmax - t)
+            call mise_a_jour(Nx, w, dt, dx)
+            t = t + dt
+            n = n + 1
+        end do
+
+        print *, "Fin du calcul : t =", t, " en", n, "pas de temps"
+
+    end subroutine resolution_1D
+
     
 end module VF
 

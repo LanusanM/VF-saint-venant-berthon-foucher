@@ -10,7 +10,7 @@ program main
     real(pr) :: xmin, xmax, ymin, ymax, Tmax, CFL, hG, hD, xb
 
     integer :: i
-    real(pr) :: dx, dt
+    real(pr) :: dx
     real(pr), dimension(:), allocatable :: x, z
     real(pr), dimension(:,:), allocatable :: w
 
@@ -28,8 +28,8 @@ program main
     select case (cas)
     case (1)
         call init_rupture_barrage(Nx, x, xb, hG, hD, w, z)
-        dt = pas_de_temps(Nx, w, dx, CFL)
-        print * , "dt =", dt
+        call resolution_1D(Nx, w, dx, CFL, Tmax)
+        call ecrire_resultats(Nx, x, w, z, "final.dat")
 
 
 
