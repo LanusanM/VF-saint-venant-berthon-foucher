@@ -7,7 +7,7 @@ program main
     implicit none
 
     integer :: Nx, Ny, dim, cas
-    real(pr) :: xmin, xmax, ymin, ymax, Tmax, CFL, hL, hR, xb
+    real(pr) :: xmin, xmax, ymin, ymax, Tmax, CFL, hG, hD, xb
 
     integer :: i
     real(pr) :: dx, dy
@@ -26,8 +26,8 @@ program main
     read(2,*) Tmax
     read(2,*) CFL
     read(2,*) cas
-    read(2,*) hL
-    read(2,*) hR
+    read(2,*) hG
+    read(2,*) hD
     close(2)
 
     dx = (xmax-xmin)/Nx
@@ -41,7 +41,7 @@ program main
 
     select case (cas)
     case (1)
-        call init_rupture_barrage(Nx, x, xb, hL, hR, w, z)
+        call init_rupture_barrage(Nx, x, xb, hG, hD, w, z)
         print *, w(1, Nx/2), w(1, Nx/2+1)
 
 

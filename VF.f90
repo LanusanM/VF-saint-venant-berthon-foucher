@@ -8,30 +8,55 @@ module VF
     function flux_function(w) result(f)
         real(pr), dimension(2), intent(in) :: w
         real(pr), dimension(2) :: f
+        real(pr) :: h, u
 
-        f(1) = w(2)
-
-        if (w(1)>eps) then
-            f(2) = (w(2)*w(2))/w(1) + g/2 * (w(1)*w(1))
+        h = w(1)
+        if (h > eps) then
+            u = w(2) / h
         else
-            f(2) = 0._pr
-
+            u = 0.0_pr                                   ! maille sèche
         end if
+
+        f(1) = h * u                                    ! flux de masse : hu
+        f(2) = h * u*u + 0.5_pr * g * h*h
     end function flux_function
 
-    
 
 
 
 
-
+      !> Flux numérique HLL entre un état gauche wG et un état droit wD
+    function flux_HLL(wG, wD) result(F)
+        real(pr), dimension(2), intent(in) :: wG, wD   ! (h, hu) à gauche et à droite de l'interface
+        real(pr), dimension(2)             :: F
+        real(pr) :: hG, uG, cG, hD, uD, cD, lm, lp
 
         
-            
+        hG = wG(1)
+        hD = wD(1)
+        uG = 0.0_pr
+        uD = 0.0_pr
+        if (hG > eps) uG = wG(2) / hG
+        if (hD > eps) uD = wD(2) / hD
+        cG = sqrt(g * max(hG, 0.0_pr))
+        cD = sqrt(g * max(hD, 0.0_pr))
 
+        
+        lm = min(uG - cG, uD - cD)
+        lp = max(uG + cG, uD + cD)
 
+        if (lp - lm < eps) then
+        F = 0.0_pr                                  ! deux états secs : aucun flux
+        else if (lm >= 0.0_pr) then
+        F = flux_function(wG)                       ! toutes les ondes vont à droite
+        else if (lp <= 0.0_pr) then
+        F = flux_function(wD)                       ! toutes les ondes vont à gauche
+        else
+        F = ( lp*flux_function(wG) - lm*flux_function(wD) &
+                + lp*lm*(wD - wG) ) / (lp - lm)       ! état intermédiaire HLL
+        end if
+    end function flux_HLL
 
-
-
+    
 end module VF
 
