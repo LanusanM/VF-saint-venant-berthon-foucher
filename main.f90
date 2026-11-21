@@ -10,7 +10,7 @@ program main
     real(pr) :: xmin, xmax, ymin, ymax, Tmax, CFL, hG, hD, xb
 
     integer :: i
-    real(pr) :: dx, dy
+    real(pr) :: dx, dt
     real(pr), dimension(:), allocatable :: x, z
     real(pr), dimension(:,:), allocatable :: w
 
@@ -24,15 +24,18 @@ program main
     end do
 
 
+
     select case (cas)
     case (1)
         call init_rupture_barrage(Nx, x, xb, hG, hD, w, z)
-        print *, w(1, Nx/2), w(1, Nx/2+1)
+        dt = pas_de_temps(Nx, w, dx, CFL)
+        print * , "dt =", dt
+
 
 
 
     case (2)
-        ! plus tard : lac au repos
+        !lac au repos
 
 
 

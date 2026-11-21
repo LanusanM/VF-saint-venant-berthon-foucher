@@ -24,8 +24,6 @@ module cas_test
             z(i)= 0._pr
         end do
 
-
-
     end subroutine init_rupture_barrage
 
 

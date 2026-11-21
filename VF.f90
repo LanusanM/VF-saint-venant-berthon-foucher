@@ -72,15 +72,29 @@ module VF
 
 
 
-    ! function pas_de_temps(Nx, w, dx, CFL) result(dt)
-    !     integer, intent(in) :: Nx
-    !     real(pr), dimension(:,0:), intent(in) :: w
-    !     real(pr), intent(in) :: dx, CFL
+    function pas_de_temps(Nx, w, dx, CFL) result(dt)
+        integer, intent(in) :: Nx
+        real(pr), dimension(:,0:), intent(in) :: w
+        real(pr), intent(in) :: dx, CFL
+        real(pr) :: dt, vmax, h, u
+        integer :: i
 
+        vmax = 0._pr
 
+        do i = 1, Nx
+            h = w(1,i)
+            if (h<eps) then
+                u = 0._pr
+            else
+                u = w(2,i)/h
+            end if
+            if (abs(u) + sqrt(g*h) > vmax) then
+                vmax = abs(u) + sqrt(g*h)
+            end if
+        end do
 
-    
-    ! end function pas_de_temps
+        dt = CFL * dx/vmax  
+    end function pas_de_temps
 
     
 end module VF
