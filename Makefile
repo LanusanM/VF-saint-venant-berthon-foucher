@@ -20,4 +20,4 @@ mod_sortie.o:          mod_parametres.o
 main.o:                mod_parametres.o mod_cas_test.o mod_VF.o mod_solution_exacte.o mod_sortie.o
 
 clean:
-	rm -f *.o *.mod run final.dat init.dat *.png
+	rm -f *.o *.mod run final.dat init.dat exacte.dat *.png

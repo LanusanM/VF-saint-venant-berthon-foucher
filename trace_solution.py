@@ -2,6 +2,7 @@
 
 Usage : python3 trace.py            (lit init.dat et final.dat)
         python3 trace.py a.dat b.dat ...
+        python3 trace.py final.dat exacte.dat   (solution exacte en pointillés)
 Colonnes des fichiers : x, h, u, h+z, z (ligne d'en-tête commençant par #).
 """
 import sys
@@ -14,8 +15,10 @@ fig, (ax_h, ax_u) = plt.subplots(2, 1, sharex=True, figsize=(8, 6))
 
 for nom in fichiers:
     x, h, u, H, z = np.loadtxt(nom, unpack=True)   # '#' ignoré par défaut
-    ax_h.plot(x, H, label=f"{nom} : surface h+z")
-    ax_u.plot(x, u, label=nom)
+    # Solution exacte (nom contenant "exact") : trait noir en pointillés
+    style = dict(color="k", linestyle="--", linewidth=1.2) if "exact" in nom else {}
+    ax_h.plot(x, H, label=f"{nom} : surface h+z", **style)
+    ax_u.plot(x, u, label=nom, **style)
 
 # Fond (identique dans tous les fichiers) : on le trace une fois
 ax_h.fill_between(x, z.min() - 0.05, z, color="0.7", label="fond z")
@@ -31,3 +34,4 @@ fig.suptitle("Saint-Venant 1D : rupture de barrage")
 fig.tight_layout()
 fig.savefig("resultats.png", dpi=150)
 plt.show()
+
