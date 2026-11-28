@@ -1,5 +1,5 @@
 1          ! dim    : 1 = 1D, 2 = 2D
-1000   ! Nx     : nombre de mailles en x
+1000       ! Nx     : nombre de mailles en x
 1          ! Ny     : nombre de mailles en y (ignoré en 1D)
 0.0        ! xmin
 10.0       ! xmax

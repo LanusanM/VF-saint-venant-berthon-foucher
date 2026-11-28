@@ -115,6 +115,7 @@ module VF
     end subroutine mise_a_jour
 
 
+
     subroutine resolution_1D(Nx, w, dx, CFL, Tmax)
         integer, intent(in) :: Nx
         real(pr), dimension(:,0:), intent(inout) :: w
@@ -137,6 +138,15 @@ module VF
         print *, "Fin du calcul : t =", t, " en", n, "pas de temps"
 
     end subroutine resolution_1D
+
+
+
+
+
+
+    !subroutine mise_a_jour_BF(Nx, w, z, dx, dt)
+    !    integer, intent(in) :: Nx
+    !    real(pr), intent(in) :: dx, dt
 
     
 end module VF

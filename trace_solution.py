@@ -14,13 +14,11 @@ fichiers = sys.argv[1:] or ["init.dat", "final.dat"]
 fig, (ax_h, ax_u) = plt.subplots(2, 1, sharex=True, figsize=(8, 6))
 
 for nom in fichiers:
-    x, h, u, H, z = np.loadtxt(nom, unpack=True)   # '#' ignoré par défaut
-    # Solution exacte (nom contenant "exact") : trait noir en pointillés
+    x, h, u, H, z = np.loadtxt(nom, unpack=True)   
     style = dict(color="k", linestyle="--", linewidth=1.2) if "exact" in nom else {}
     ax_h.plot(x, H, label=f"{nom} : surface h+z", **style)
     ax_u.plot(x, u, label=nom, **style)
 
-# Fond (identique dans tous les fichiers) : on le trace une fois
 ax_h.fill_between(x, z.min() - 0.05, z, color="0.7", label="fond z")
 
 ax_h.set_ylabel("h + z (m)")
