@@ -6,10 +6,10 @@ module sortie
     contains
 
 
-   subroutine read_param(fichier ,dim, Nx, Ny, xmin, xmax, ymin, ymax, xb, Tmax, CFL, cas, hG, hD)
+   subroutine read_param(fichier ,dim, Nx, Ny, xmin, xmax, ymin, ymax, xb, Tmax, CFL, cas, hG, hD, z0)
       integer, intent(out) :: dim, Nx, Ny,cas
       character(len=*), intent(in) :: fichier
-      real(pr), intent(out) :: xmin, xmax, ymin, ymax, xb, Tmax, CFL, hG, hD
+      real(pr), intent(out) :: xmin, xmax, ymin, ymax, xb, Tmax, CFL, hG, hD, z0
 
 
       open(unit=2,file = fichier)
@@ -26,6 +26,8 @@ module sortie
       read(2,*) cas
       read(2,*) hG
       read(2,*) hD
+      read(2,*) z0
+
       close(2)
 
    end subroutine read_param

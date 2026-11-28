@@ -8,14 +8,14 @@ program main
     implicit none
 
     integer :: Nx, Ny, dim, cas
-    real(pr) :: xmin, xmax, ymin, ymax, Tmax, CFL, hG, hD, xb
+    real(pr) :: xmin, xmax, ymin, ymax, Tmax, CFL, hG, hD, xb, z0
 
     integer :: i
     real(pr) :: dx
     real(pr), dimension(:), allocatable :: x, z
     real(pr), dimension(:,:), allocatable :: w, w_ex
 
-    call read_param("donnees.dat" ,dim, Nx, Ny, xmin, xmax, ymin, ymax, xb, Tmax, CFL, cas, hG, hD)
+    call read_param("donnees.dat" ,dim, Nx, Ny, xmin, xmax, ymin, ymax, xb, Tmax, CFL, cas, hG, hD, z0)
 
     dx = (xmax-xmin)/Nx
     allocate(x(0:Nx+1), z(0:Nx+1), w(dim + 1, 0:Nx+1), w_ex(dim + 1,0:Nx+1))
@@ -28,11 +28,11 @@ program main
 
     select case (cas)
     case (1)
-        call init_rupture_barrage(Nx, x, xb, hG, hD, w, z)
+        call init_rupture_barrage(Nx, x, xb, hG, hD, w, z, z0)
         call resolution_1D(Nx, w, dx, CFL, Tmax)
         call ecrire_resultats(Nx, x, w, z, "final.dat")
 
-        call init_rupture_barrage(Nx, x, xb, hG, hD, w_ex, z)
+        call init_rupture_barrage(Nx, x, xb, hG, hD, w_ex, z, z0)
         call solution_exacte_barrage(Nx, x, Tmax, xb, hG, hD, w_ex)
         call ecrire_resultats(Nx, x, w_ex, z, "exacte.dat")
         
