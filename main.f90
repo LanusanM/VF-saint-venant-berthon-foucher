@@ -13,12 +13,12 @@ program main
     integer :: i
     real(pr) :: dx
     real(pr), dimension(:), allocatable :: x, z
-    real(pr), dimension(:,:), allocatable :: w
+    real(pr), dimension(:,:), allocatable :: w, w_ex
 
     call read_param("donnees.dat" ,dim, Nx, Ny, xmin, xmax, ymin, ymax, xb, Tmax, CFL, cas, hG, hD)
 
     dx = (xmax-xmin)/Nx
-    allocate(x(0:Nx+1), z(0:Nx+1), w(dim + 1, 0:Nx+1))
+    allocate(x(0:Nx+1), z(0:Nx+1), w(dim + 1, 0:Nx+1), w_ex(dim + 1,0:Nx+1))
 
     do i = 0, Nx+1
         x(i) = xmin + (i-0.5_pr)*dx
@@ -31,6 +31,12 @@ program main
         call init_rupture_barrage(Nx, x, xb, hG, hD, w, z)
         call resolution_1D(Nx, w, dx, CFL, Tmax)
         call ecrire_resultats(Nx, x, w, z, "final.dat")
+
+        call init_rupture_barrage(Nx, x, xb, hG, hD, w_ex, z)
+        call solution_exacte_barrage(Nx, x, Tmax, xb, hG, hD, w_ex)
+        call ecrire_resultats(Nx, x, w_ex, z, "exacte.dat")
+        
+        print *, "Erreur L1 :", erreur_L1(Nx, w, w_ex, dx)
 
 
 
@@ -52,6 +58,6 @@ program main
 
 
 
-    deallocate(x, z, w)
+    deallocate(x, z, w, w_ex)
 
 end program main

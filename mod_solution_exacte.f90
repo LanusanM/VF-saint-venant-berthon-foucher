@@ -9,8 +9,7 @@ contains
         real(pr), intent(in) :: h, hG, hD
         real(pr) :: val
 
-        val = 2.0_pr * (sqrt(g*hG) - sqrt(g*h))                    &   ! 
-            - (h - hD) * sqrt( g * (h + hD) / (2.0_pr * h * hD) )      
+        val = 2.0_pr * (sqrt(g*hG) - sqrt(g*h)) - (h - hD) * sqrt( g * (h + hD) / (2.0_pr * h * hD) )      
     end function phi
 
 
@@ -67,6 +66,22 @@ contains
         end do
 
     end subroutine solution_exacte_barrage
+
+
+    function erreur_L1(Nx, w, w_ex, dx) result(err)
+        integer,                   intent(in) :: Nx
+        real(pr), dimension(:,0:), intent(in) :: w      ! solution numérique
+        real(pr), dimension(:,0:), intent(in) :: w_ex   ! solution exacte
+        real(pr),                  intent(in) :: dx
+        real(pr) :: err
+        integer  :: i
+
+        err = 0.0_pr
+        do i = 1, Nx                                    
+        err = err + abs(w(1,i) - w_ex(1,i)) * dx
+        end do
+
+    end function erreur_L1
 
     
 
